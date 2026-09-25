@@ -28,3 +28,19 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# User exclusions
+/plan/
+/.agents/
+/.claude/
+/tests/
+/test/
+
+# Exclude all markdown files except root README, FLOWCHART, and ERD
+*.md
+!/README.md
+!/readme.md
+!/FLOWCHART.md
+!/flowchart.md
+!/ERD.md
+!/erd.md
