@@ -64,6 +64,14 @@
                         <span class="text-base">👥</span>
                         <span>Data Karyawan</span>
                     </a>
+                    <a href="{{ route('shifts.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('shifts.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">⏰</span>
+                        <span>Shift Kerja</span>
+                    </a>
+                    <a href="{{ route('attendances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('attendances.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📊</span>
+                        <span>Rekap Presensi</span>
+                    </a>
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">🔐</span>
                         <span>Hak Akses (RBAC)</span>
@@ -85,7 +93,14 @@
                         <span class="text-base">📑</span>
                         <span>Departemen & Jabatan</span>
                     </a>
-
+                    <a href="{{ route('shifts.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('shifts.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">⏰</span>
+                        <span>Shift Kerja</span>
+                    </a>
+                    <a href="{{ route('attendances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('attendances.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📊</span>
+                        <span>Rekap Presensi</span>
+                    </a>
                     <a href="{{ route('employees.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('employees.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">👥</span>
                         <span>Data Karyawan</span>
@@ -95,10 +110,10 @@
                         <span class="text-base">💰</span>
                         <span>Penggajian (Payroll)</span>
                     </span>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('leave-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('leave-approvals.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📝</span>
                         <span>Persetujuan Cuti Final</span>
-                    </span>
+                    </a>
                 </div>
             </div>
         @endrole
@@ -108,18 +123,18 @@
             <div>
                 <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-emerald-400/80">Manajemen Tim</span>
                 <div class="mt-2 space-y-1">
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('leave-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('leave-approvals.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">✅</span>
                         <span>Persetujuan Cuti Anggota</span>
-                    </span>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    </a>
+                    <a href="{{ route('overtime-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('overtime-approvals.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">⚡</span>
                         <span>Verifikasi Lembur Tim</span>
-                    </span>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    </a>
+                    <a href="{{ route('attendances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('attendances.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📊</span>
                         <span>Monitoring Kehadiran</span>
-                    </span>
+                    </a>
                 </div>
             </div>
         @endrole
@@ -129,14 +144,18 @@
             <div>
                 <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-teal-400/80">Layanan Mandiri (ESS)</span>
                 <div class="mt-2 space-y-1">
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('ess.attendance') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.attendance*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📍</span>
                         <span>Presensi Kehadiran</span>
-                    </span>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    </a>
+                    <a href="{{ route('ess.leaves.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.leaves*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">🏖️</span>
                         <span>Pengajuan Cuti / Izin</span>
-                    </span>
+                    </a>
+                    <a href="{{ route('ess.overtimes.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.overtimes*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">⚡</span>
+                        <span>Pengajuan Lembur</span>
+                    </a>
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">📄</span>
                         <span>Slip Gaji Saya</span>

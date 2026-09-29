@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AttendanceApiController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BranchApiController;
+use App\Http\Controllers\Api\V1\LeaveApiController;
+use App\Http\Controllers\Api\V1\OvertimeApiController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +20,32 @@ Route::prefix('v1')->group(function (): void {
         // Master Cabang (Mobile Geofencing & Sync)
         Route::get('/branches', [BranchApiController::class, 'index']);
         Route::get('/branches/{branch}', [BranchApiController::class, 'show']);
-        // Portal Profil Mandiri Karyawan (ESS) - Mobile API
-        // Profil ESS Mobile (US-10)
+
+        // Portal Profil Mandiri Karyawan (ESS) - Mobile API (US-10)
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::put('/profile', [ProfileController::class, 'update']);
         Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar']);
         Route::get('/profile/emergency-contacts', [ProfileController::class, 'emergencyContacts']);
         Route::post('/profile/emergency-contacts', [ProfileController::class, 'storeEmergencyContact']);
         Route::delete('/profile/emergency-contacts/{id}', [ProfileController::class, 'destroyEmergencyContact']);
+
+        // Sprint 3: Presensi Cerdas (Attendance - US-12 & US-13)
+        Route::get('/attendance/today', [AttendanceApiController::class, 'today']);
+        Route::post('/attendance/clock-in', [AttendanceApiController::class, 'clockIn']);
+        Route::post('/attendance/clock-out', [AttendanceApiController::class, 'clockOut']);
+        Route::get('/attendance/history', [AttendanceApiController::class, 'history']);
+
+        // Sprint 3: Manajemen Cuti & Saldo (Leaves - US-14 & US-15)
+        Route::get('/leaves/balances', [LeaveApiController::class, 'balances']);
+        Route::get('/leaves', [LeaveApiController::class, 'index']);
+        Route::post('/leaves', [LeaveApiController::class, 'store']);
+        Route::get('/leaves/approvals', [LeaveApiController::class, 'approvals']);
+        Route::post('/leaves/{id}/approve', [LeaveApiController::class, 'approve']);
+
+        // Sprint 3: Surat Perintah Lembur (Overtime - US-16)
+        Route::get('/overtimes', [OvertimeApiController::class, 'index']);
+        Route::post('/overtimes', [OvertimeApiController::class, 'store']);
+        Route::get('/overtimes/approvals', [OvertimeApiController::class, 'approvals']);
+        Route::post('/overtimes/{id}/approve', [OvertimeApiController::class, 'approve']);
     });
 });
