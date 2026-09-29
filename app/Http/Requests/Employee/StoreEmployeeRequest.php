@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Requests\Employee;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreEmployeeRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return $this->user()?->hasAnyRole(['super_admin', 'hr_admin']) ?? false;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return [
+            // Data Akun Login
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'role' => ['nullable', 'string', 'in:employee,manager,hr_admin,super_admin'],
+            'temporary_password' => ['nullable', 'string', 'min:6'],
+
+            // Data Induk Pegawai
+            'employee_code' => ['nullable', 'string', 'max:50', 'unique:employees,employee_code'],
+            'nik_ktp' => ['required', 'string', 'digits:16', 'unique:employees,nik_ktp'],
+            'npwp' => ['nullable', 'string', 'max:50'],
+            'bpjs_tk' => ['nullable', 'string', 'max:50'],
+            'bpjs_kes' => ['nullable', 'string', 'max:50'],
+
+            // Struktur Organisasi
+            'branch_id' => ['required', 'exists:branches,id'],
+            'department_id' => ['required', 'exists:departments,id'],
+            'designation_id' => ['required', 'exists:designations,id'],
+            'manager_id' => ['nullable', 'exists:employees,id'],
+
+            // Biodata Pribadi
+            'gender' => ['nullable', 'in:MALE,FEMALE'],
+            'birth_date' => ['nullable', 'date'],
+            'birth_place' => ['nullable', 'string', 'max:100'],
+            'phone' => ['nullable', 'string', 'max:30'],
+
+            // Status Kontrak & Tanggal
+            'employment_status' => ['required', 'in:PKWT,PKWTT,INTERN,PROBATION'],
+            'join_date' => ['required', 'date'],
+            'contract_end_date' => ['nullable', 'date', 'after_or_equal:join_date'],
+
+            // Rekening Payroll
+            'bank_name' => ['nullable', 'string', 'max:100'],
+            'bank_account_no' => ['nullable', 'string', 'max:50'],
+            'bank_account_holder' => ['nullable', 'string', 'max:100'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama lengkap karyawan wajib diisi.',
+            'email.required' => 'Email karyawan wajib diisi.',
+            'email.unique' => 'Email ini sudah terdaftar di sistem.',
+            'nik_ktp.required' => 'NIK KTP wajib diisi.',
+            'nik_ktp.digits' => 'NIK KTP harus terdiri dari tepat 16 digit angka.',
+            'nik_ktp.unique' => 'NIK KTP ini sudah terdaftar di sistem.',
+            'branch_id.required' => 'Cabang penempatan wajib dipilih.',
+            'department_id.required' => 'Departemen wajib dipilih.',
+            'designation_id.required' => 'Jabatan wajib dipilih.',
+            'employment_status.required' => 'Status ketenagakerjaan wajib dipilih.',
+            'join_date.required' => 'Tanggal bergabung wajib diisi.',
+            'contract_end_date.after_or_equal' => 'Tanggal akhir kontrak tidak boleh sebelum tanggal bergabung.',
+        ];
+    }
+}

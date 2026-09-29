@@ -3,6 +3,12 @@
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeDocumentController;
+use App\Http\Controllers\EssProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Tamu (Guest)
@@ -19,6 +25,29 @@ Route::middleware('auth')->group(function (): void {
         return view('dashboard');
     })->name('dashboard');
 
+    // Modul Berkas Dokumen Karyawan
+    Route::post('/employees/{employee}/documents', [EmployeeDocumentController::class, 'store'])->name('employees.documents.store');
+    Route::get('/documents/{document}/download', [EmployeeDocumentController::class, 'download'])->name('documents.download');
+    Route::delete('/documents/{document}', [EmployeeDocumentController::class, 'destroy'])->name('documents.destroy');
+    // Modul Portal Profil Mandiri Karyawan (ESS)
+    Route::prefix('ess')->name('ess.')->group(function (): void {
+        Route::get('/profile', [EssProfileController::class, 'index'])->name('profile');
+        Route::post('/profile', [EssProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/avatar', [EssProfileController::class, 'uploadAvatar'])->name('profile.avatar');
+        Route::post('/emergency-contacts', [EssProfileController::class, 'storeEmergencyContact'])->name('emergency-contacts.store');
+        Route::delete('/emergency-contacts/{id}', [EssProfileController::class, 'destroyEmergencyContact'])->name('emergency-contacts.destroy');
+    });
+
+    // Modul Struktur Organisasi (Super Admin & HR Admin)
+    Route::middleware('role:super_admin|hr_admin')->group(function (): void {
+        Route::resource('branches', BranchController::class);
+        Route::resource('departments', DepartmentController::class);
+        Route::resource('designations', DesignationController::class);
+        Route::resource('employees', EmployeeController::class);
+        // Helper AJAX Cascading Dropdowns
+        Route::get('/ajax/branches/{branch}/departments', [DepartmentController::class, 'byBranch'])->name('ajax.branches.departments');
+        Route::get('/ajax/departments/{department}/designations', [DesignationController::class, 'byDepartment'])->name('ajax.departments.designations');
+    });
     // Rute Khusus Super Admin
     Route::middleware('role:super_admin')->prefix('admin')->name('admin.')->group(function (): void {
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs');

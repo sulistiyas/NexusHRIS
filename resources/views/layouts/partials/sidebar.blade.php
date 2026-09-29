@@ -32,6 +32,10 @@
                     <span class="text-base">📊</span>
                     <span>Dashboard</span>
                 </a>
+                <a href="{{ route('ess.profile') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.profile*') ? 'bg-teal-600 text-white shadow-md shadow-teal-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                    <span class="text-base">👤</span>
+                    <span>Profil Saya (ESS)</span>
+                </a>
             </div>
         </div>
 
@@ -44,10 +48,22 @@
                         <span class="text-base">📋</span>
                         <span>Audit Trail Logs</span>
                     </a>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('branches.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('branches.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">🏢</span>
-                        <span>Cabang & Struktur</span>
-                    </span>
+                        <span>Kantor Cabang</span>
+                    </a>
+                    <a href="{{ route('departments.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('departments.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📑</span>
+                        <span>Departemen</span>
+                    </a>
+                    <a href="{{ route('designations.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('designations.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💼</span>
+                        <span>Jabatan</span>
+                    </a>
+                    <a href="{{ route('employees.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('employees.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">👥</span>
+                        <span>Data Karyawan</span>
+                    </a>
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">🔐</span>
                         <span>Hak Akses (RBAC)</span>
@@ -61,10 +77,20 @@
             <div>
                 <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-sky-400/80">Manajemen HR</span>
                 <div class="mt-2 space-y-1">
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('branches.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('branches.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">🏢</span>
+                        <span>Kantor Cabang</span>
+                    </a>
+                    <a href="{{ route('departments.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('departments.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📑</span>
+                        <span>Departemen & Jabatan</span>
+                    </a>
+
+                    <a href="{{ route('employees.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('employees.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">👥</span>
                         <span>Data Karyawan</span>
-                    </span>
+                    </a>
+
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">💰</span>
                         <span>Penggajian (Payroll)</span>
