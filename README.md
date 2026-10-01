@@ -49,7 +49,7 @@ Pengembangan NexusHRIS terbagi menjadi 5 siklus berjenjang (*Sprints*). Modul Sp
 | **Sprint 1** | **Fondasi Sistem, Autentikasi & RBAC** | ✅ **Selesai** | Multi-guard Auth, Spatie 4 Roles, Audit Trail, Web & API baseline. |
 | **Sprint 2** | **Struktur Organisasi & Karyawan** | ✅ **Selesai** | Cabang Geofence, Departemen, Onboarding Karyawan, Berkas Dokumen, Portal ESS. |
 | **Sprint 3** | **Presensi GPS, Shift & Cuti/Lembur** | ✅ **Selesai** | Geofencing Haversine, Foto Selfie, Evaluasi Keterlambatan, Approval Workflow, Mobile API. |
-| **Sprint 4** | **Payroll Engine, BPJS, PPh 21 TER & Slip PDF** | ⏳ **Coming Soon** | Struktur Gaji, Kalkulasi Massal Batch, BPJS TK/Kes, Pajak PPh 21 TER, Slip Gaji PDF + QR. |
+| **Sprint 4** | **Payroll Engine, BPJS, PPh 21 TER & Slip PDF** | ✅ **Selesai** | Struktur Gaji, Kalkulasi Massal Batch, BPJS TK/Kes, Pajak PPh 21 TER, Slip Gaji PDF + QR. |
 | **Sprint 5** | **Reimbursement, Aset & BI Analytics** | ⏳ **Coming Soon** | Klaim Reimbursement, Inventaris Aset Kantor, Dashboard Visual Analitik, Ekspor Excel. |
 
 ---
@@ -106,26 +106,29 @@ Pengembangan NexusHRIS terbagi menjadi 5 siklus berjenjang (*Sprints*). Modul Sp
 
 ---
 
+### 4. Mesin Penggajian (Payroll Engine), BPJS & PPh 21 TER
+- **Struktur Komponen Gaji Karyawan:**
+  - Konfigurasi fleksibel gaji pokok, tunjangan tetap, tunjangan transportasi, tunjangan makan, dan status PTKP.
+- **Proses Batch Penggajian Bulanan Otomatis:**
+  - Eksekusi massal perhitungan gaji bulanan seluruh pegawai dalam transaksi database atomik (`DB::transaction`).
+  - Rekonsiliasi data jam lembur terverifikasi (formula PP 35/2021) dan autodebet cicilan kasbon berjalan.
+- **Kalkulator Regulasi Finansial Ketenagakerjaan Indonesia:**
+  - **BPJS Ketenagakerjaan:** Pemotongan otomatis program Jaminan Hari Tua (JHT 2% pekerja, 3.7% perusahaan), Jaminan Pensiun (JP 1% pekerja, 2% perusahaan dengan plafon Rp 10.042.300), JKK (0.24%), dan JKM (0.30%).
+  - **BPJS Kesehatan:** Perhitungan iuran 4% pemberi kerja dan 1% pekerja dengan batas plafon gaji resmi Rp 12.000.000.
+  - **Pajak Penghasilan PPh 21 Skema TER 2024:** Otomasi tarif efektif rata-rata bulanan berdasarkan Kategori A, B, atau C (PP 58/2023 & PMK 168/2023).
+- **Generator Slip Gaji PDF Resmi dengan Kode QR:**
+  - Dokumen slip gaji berformat PDF siap cetak dengan tata letak profesional berbasis Dompdf.
+  - Tanda tangan digital kode QR dinamis untuk verifikasi publik keabsahan dokumen slip gaji.
+- **Riwayat Slip Gaji Mandiri di Portal ESS:**
+  - Pegawai dapat melihat rincian pendapatan & potongan serta mengunduh slip gaji bulanan mereka secara mandiri.
+- **Modul Pengajuan Kasbon / Pinjaman Karyawan:**
+  - Pengajuan pinjaman darurat karyawan via ESS/Mobile dengan tenor cicilan dan alur persetujuan HR/Admin serta pemotongan otomatis pada slip gaji saat batch dibayarkan (*PAID*).
+
+---
+
 ## ⏳ Fitur Mendatang (Coming Soon Features)
 
 Fitur-fitur berikut sedang dalam tahap perencanaan teknis lanjutan dan akan segera dirilis pada pembaruan mendatang:
-
-### 4. Mesin Penggajian (Payroll Engine), BPJS & PPh 21 TER (Coming Soon)
-- [ ] **Struktur Komponen Gaji Karyawan:** Konfigurasi komponen gaji pokok, tunjangan jabatan/keahlian tetap, dan tunjangan kehadiran/transportasi.
-- [ ] **Proses Batch Penggajian Bulanan Otomatis:**
-  - Eksekusi massal perhitungan gaji bulanan seluruh pegawai dalam sekali klik melalui antrean latar belakang (*Queue*).
-  - Rekonsiliasi data kehadiran otomatis (potongan mangkir / potongan terlambat), jam lembur terverifikasi (formula PP 35/2021), dan cicilan kasbon.
-- [ ] **Kalkulator Regulasi Finansial Ketenagakerjaan Indonesia:**
-  - **BPJS Ketenagakerjaan:** Pemotongan otomatis program Jaminan Hari Tua (JHT), Jaminan Pensiun (JP), JKK, dan JKM sesuai persentase resmi.
-  - **BPJS Kesehatan:** Perhitungan iuran 4% pemberi kerja dan 1% pekerja dengan plafon gaji resmi.
-  - **Pajak Penghasilan PPh 21 Skema TER 2024:** Otomasi tarif efektif rata-rata bulanan berdasarkan Kategori A, B, atau C (PP 58/2023 & PMK 168/2023).
-- [ ] **Generator Slip Gaji PDF Resmi dengan Kode QR:**
-  - Dokumen slip gaji berformat PDF siap cetak dengan tata letak profesional.
-  - Tanda tangan digital kode QR dinamis untuk verifikasi otentisitas dokumen slip gaji.
-- [ ] **Riwayat Slip Gaji Mandiri di Portal ESS:** Memungkinkan pegawai melihat dan mengunduh slip gaji bulanan mereka kapan pun.
-- [ ] **Modul Pengajuan Kasbon / Pinjaman Karyawan:** Pengajuan dana darurat dengan persetujuan bertingkat dan skema cicilan potong gaji otomatis.
-
----
 
 ### 5. Reimbursement, Aset Kantor & Dashboard Analitik (Coming Soon)
 - [ ] **Modul Klaim Biaya Operasional (Reimbursement):**
@@ -216,6 +219,11 @@ Seluruh endpoint REST API menggunakan format response terpadu (*Unified API Enve
 | **Lembur** | `POST` | `/api/v1/overtimes` | Bearer Token | Mengajukan permohonan lembur baru. |
 | **Lembur** | `GET` | `/api/v1/overtimes/approvals` | Bearer Token | Mengambil daftar lembur bawahan yang menunggu verifikasi. |
 | **Lembur** | `POST` | `/api/v1/overtimes/{id}/approve` | Bearer Token | Menyetujui atau menolak permohonan lembur bawahan. |
+| **Slip Gaji** | `GET` | `/api/v1/payslips` | Bearer Token | Riwayat daftar slip gaji disetujui (Approved / Paid). |
+| **Slip Gaji** | `GET` | `/api/v1/payslips/{id}` | Bearer Token | Detail rincian pendapatan, potongan, dan net take-home pay. |
+| **Slip Gaji** | `GET` | `/api/v1/payslips/{id}/download` | Bearer Token | Unduh stream berkas PDF slip gaji resmi dengan QR signature. |
+| **Kasbon** | `GET` | `/api/v1/cash-advances` | Bearer Token | Riwayat daftar permohonan kasbon dan sisa saldo cicilan. |
+| **Kasbon** | `POST` | `/api/v1/cash-advances` | Bearer Token | Mengajukan permohonan pinjaman kasbon baru beserta tenor cicilan. |
 
 ---
 

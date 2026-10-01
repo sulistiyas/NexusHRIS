@@ -5,18 +5,27 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CashAdvanceApprovalController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeDocumentController;
 use App\Http\Controllers\EssAttendanceController;
+use App\Http\Controllers\EssCashAdvanceController;
 use App\Http\Controllers\EssLeaveController;
 use App\Http\Controllers\EssOvertimeController;
+use App\Http\Controllers\EssPayslipController;
 use App\Http\Controllers\EssProfileController;
 use App\Http\Controllers\LeaveApprovalController;
 use App\Http\Controllers\OvertimeApprovalController;
+use App\Http\Controllers\PayrollBatchController;
+use App\Http\Controllers\PayslipController;
+use App\Http\Controllers\SalaryStructureController;
 use App\Http\Controllers\ShiftController;
 use Illuminate\Support\Facades\Route;
+
+// Rute Publik (Verifikasi Keaslian Slip Gaji dari Scan QR)
+Route::get('/verify/payslip/{slipNumber}', [PayslipController::class, 'verify'])->name('payslips.verify');
 
 // Rute Tamu (Guest)
 Route::middleware('guest')->group(function (): void {
@@ -48,15 +57,29 @@ Route::middleware('auth')->group(function (): void {
         Route::post('/attendance/clock-out', [EssAttendanceController::class, 'clockOut'])->name('attendance.clock-out');
         Route::resource('leaves', EssLeaveController::class)->only(['index', 'create', 'store', 'show']);
         Route::resource('overtimes', EssOvertimeController::class)->only(['index', 'create', 'store']);
+        Route::resource('cash-advances', EssCashAdvanceController::class)->only(['index', 'create', 'store']);
+        Route::get('/payslips', [EssPayslipController::class, 'index'])->name('payslips.index');
+        Route::get('/payslips/{payslip}', [EssPayslipController::class, 'show'])->name('payslips.show');
+        Route::get('/payslips/{payslip}/download', [EssPayslipController::class, 'download'])->name('payslips.download');
     });
 
-    // Modul Struktur Organisasi (Super Admin & HR Admin)
+    // Modul Struktur Organisasi & Penggajian (Super Admin & HR Admin)
     Route::middleware('role:super_admin|hr_admin')->group(function (): void {
         Route::resource('branches', BranchController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('designations', DesignationController::class);
         Route::resource('employees', EmployeeController::class);
         Route::resource('shifts', ShiftController::class);
+        Route::resource('salary-structures', SalaryStructureController::class)
+            ->only(['index', 'edit', 'update'])
+            ->parameters(['salary-structures' => 'employee']);
+        Route::resource('payroll-batches', PayrollBatchController::class);
+        Route::post('/payroll-batches/{payrollBatch}/approve', [PayrollBatchController::class, 'approve'])->name('payroll-batches.approve');
+        Route::post('/payroll-batches/{payrollBatch}/pay', [PayrollBatchController::class, 'markAsPaid'])->name('payroll-batches.pay');
+        Route::get('/payslips/{payslip}/download', [PayslipController::class, 'download'])->name('payslips.download');
+        Route::get('/cash-advance-approvals', [CashAdvanceApprovalController::class, 'index'])->name('cash-advance-approvals.index');
+        Route::post('/cash-advance-approvals/{cashAdvance}/approve', [CashAdvanceApprovalController::class, 'approve'])->name('cash-advance-approvals.approve');
+        Route::post('/cash-advance-approvals/{cashAdvance}/reject', [CashAdvanceApprovalController::class, 'reject'])->name('cash-advance-approvals.reject');
         // Helper AJAX Cascading Dropdowns
         Route::get('/ajax/branches/{branch}/departments', [DepartmentController::class, 'byBranch'])->name('ajax.branches.departments');
         Route::get('/ajax/departments/{department}/designations', [DesignationController::class, 'byDepartment'])->name('ajax.departments.designations');

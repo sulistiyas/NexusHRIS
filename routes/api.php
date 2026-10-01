@@ -3,8 +3,10 @@
 use App\Http\Controllers\Api\V1\AttendanceApiController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BranchApiController;
+use App\Http\Controllers\Api\V1\CashAdvanceApiController;
 use App\Http\Controllers\Api\V1\LeaveApiController;
 use App\Http\Controllers\Api\V1\OvertimeApiController;
+use App\Http\Controllers\Api\V1\PayslipApiController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,5 +49,14 @@ Route::prefix('v1')->group(function (): void {
         Route::post('/overtimes', [OvertimeApiController::class, 'store']);
         Route::get('/overtimes/approvals', [OvertimeApiController::class, 'approvals']);
         Route::post('/overtimes/{id}/approve', [OvertimeApiController::class, 'approve']);
+
+        // Sprint 4: Slip Gaji Digital & Unduh PDF (US-20 & US-21)
+        Route::get('/payslips', [PayslipApiController::class, 'index']);
+        Route::get('/payslips/{id}', [PayslipApiController::class, 'show']);
+        Route::get('/payslips/{id}/download', [PayslipApiController::class, 'download'])->name('api.payslips.download');
+
+        // Sprint 4: Pengajuan Kasbon / Pinjaman Karyawan (US-22)
+        Route::get('/cash-advances', [CashAdvanceApiController::class, 'index']);
+        Route::post('/cash-advances', [CashAdvanceApiController::class, 'store']);
     });
 });

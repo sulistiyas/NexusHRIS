@@ -72,6 +72,18 @@
                         <span class="text-base">📊</span>
                         <span>Rekap Presensi</span>
                     </a>
+                    <a href="{{ route('salary-structures.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('salary-structures.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💰</span>
+                        <span>Struktur Gaji</span>
+                    </a>
+                    <a href="{{ route('payroll-batches.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('payroll-batches*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📅</span>
+                        <span>Periode Payroll</span>
+                    </a>
+                    <a href="{{ route('cash-advance-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('cash-advance-approvals*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💳</span>
+                        <span>Persetujuan Kasbon</span>
+                    </a>
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">🔐</span>
                         <span>Hak Akses (RBAC)</span>
@@ -106,14 +118,23 @@
                         <span>Data Karyawan</span>
                     </a>
 
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('salary-structures.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('salary-structures.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">💰</span>
-                        <span>Penggajian (Payroll)</span>
-                    </span>
+                        <span>Struktur Gaji</span>
+                    </a>
+                    <a href="{{ route('payroll-batches.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('payroll-batches*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📅</span>
+                        <span>Periode Payroll</span>
+                    </a>
                     <a href="{{ route('leave-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('leave-approvals.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📝</span>
                         <span>Persetujuan Cuti Final</span>
                     </a>
+                    <a href="{{ route('cash-advance-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('cash-advance-approvals*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💳</span>
+                        <span>Persetujuan Kasbon</span>
+                    </a>
+
                 </div>
             </div>
         @endrole
@@ -156,10 +177,14 @@
                         <span class="text-base">⚡</span>
                         <span>Pengajuan Lembur</span>
                     </a>
-                    <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
+                    <a href="{{ route('ess.payslips.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.payslips*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📄</span>
                         <span>Slip Gaji Saya</span>
-                    </span>
+                    </a>
+                    <a href="{{ route('ess.cash-advances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.cash-advances*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💳</span>
+                        <span>Pinjaman / Kasbon</span>
+                    </a>
                 </div>
             </div>
         @endrole
