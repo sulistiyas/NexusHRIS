@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
             LeaveTypeSeeder::class,
+            ReimbursementCategorySeeder::class,
+            AssetCategorySeeder::class,
         ]);
     }
 }

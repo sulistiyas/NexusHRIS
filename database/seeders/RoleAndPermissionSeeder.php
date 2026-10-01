@@ -26,7 +26,7 @@ class RoleAndPermissionSeeder extends Seeder
             Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
         }
 
-        // Permissions Dasar
+        // Permissions Dasar & Fitur Sprint 1-5
         $permissions = [
             'manage_users',
             'manage_employees',
@@ -34,6 +34,9 @@ class RoleAndPermissionSeeder extends Seeder
             'approve_leave',
             'manage_payroll',
             'view_reports',
+            'manage_reimbursements',
+            'manage_assets',
+            'view_analytics',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -44,6 +47,32 @@ class RoleAndPermissionSeeder extends Seeder
         $superAdmin = Role::where('name', 'super_admin')->first();
         if ($superAdmin) {
             $superAdmin->syncPermissions(Permission::all());
+        }
+
+        // Assign permissions operasional ke hr_admin
+        $hrAdmin = Role::where('name', 'hr_admin')->first();
+        if ($hrAdmin) {
+            $hrAdmin->syncPermissions([
+                'manage_employees',
+                'manage_attendance',
+                'approve_leave',
+                'manage_payroll',
+                'view_reports',
+                'manage_reimbursements',
+                'manage_assets',
+                'view_analytics',
+            ]);
+        }
+
+        // Assign permissions ke manager
+        $manager = Role::where('name', 'manager')->first();
+        if ($manager) {
+            $manager->syncPermissions([
+                'manage_attendance',
+                'approve_leave',
+                'view_reports',
+                'view_analytics',
+            ]);
         }
     }
 }

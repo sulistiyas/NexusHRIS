@@ -1,16 +1,19 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AssetApiController;
 use App\Http\Controllers\Api\V1\AttendanceApiController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BranchApiController;
 use App\Http\Controllers\Api\V1\CashAdvanceApiController;
+use App\Http\Controllers\Api\V1\DashboardApiController;
 use App\Http\Controllers\Api\V1\LeaveApiController;
 use App\Http\Controllers\Api\V1\OvertimeApiController;
 use App\Http\Controllers\Api\V1\PayslipApiController;
 use App\Http\Controllers\Api\V1\ProfileController;
+use App\Http\Controllers\Api\V1\ReimbursementApiController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group(function (): void {
+Route::prefix('v1')->middleware('throttle:api')->group(function (): void {
     // Rute Publik Auth
     Route::post('/auth/login', [AuthController::class, 'login']);
 
@@ -58,5 +61,18 @@ Route::prefix('v1')->group(function (): void {
         // Sprint 4: Pengajuan Kasbon / Pinjaman Karyawan (US-22)
         Route::get('/cash-advances', [CashAdvanceApiController::class, 'index']);
         Route::post('/cash-advances', [CashAdvanceApiController::class, 'store']);
+
+        // Sprint 5: Klaim Biaya Operasional (Reimbursements - US-23 & US-24)
+        Route::get('/reimbursements/categories', [ReimbursementApiController::class, 'categories']);
+        Route::get('/reimbursements', [ReimbursementApiController::class, 'index']);
+        Route::post('/reimbursements', [ReimbursementApiController::class, 'store']);
+        Route::get('/reimbursements/{id}', [ReimbursementApiController::class, 'show']);
+
+        // Sprint 5: Inventaris Aset Kantor & Serah Terima (Assets - US-25)
+        Route::get('/assets/my-assets', [AssetApiController::class, 'myAssets']);
+        Route::get('/assets', [AssetApiController::class, 'index']);
+
+        // Sprint 5: Dashboard Ringkasan Eksekutif Mobile (US-26)
+        Route::get('/dashboard/summary', [DashboardApiController::class, 'summary']);
     });
 });

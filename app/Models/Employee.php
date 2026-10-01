@@ -214,4 +214,12 @@ class Employee extends Model
     {
         return $this->hasMany(AssetAssignment::class);
     }
+
+    /**
+     * Get full name attribute from user.
+     */
+    public function getFullNameAttribute(): string
+    {
+        return $this->user?->name ?? 'Karyawan';
+    }
 }

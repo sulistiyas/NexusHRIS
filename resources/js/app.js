@@ -1,5 +1,6 @@
 import './branch-map.js';
 import './attendance.js';
+import './analytics.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const sidebarToggle = document.getElementById('sidebar-toggle');

@@ -36,6 +36,16 @@
                     <span class="text-base">👤</span>
                     <span>Profil Saya (ESS)</span>
                 </a>
+                @hasanyrole('super_admin|hr_admin|manager')
+                    <a href="{{ route('analytics.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('analytics.*') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📈</span>
+                        <span>Analitik Eksekutif</span>
+                    </a>
+                    <a href="{{ route('reports.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('reports.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">📑</span>
+                        <span>Pusat Laporan (.xlsx)</span>
+                    </a>
+                @endhasanyrole
             </div>
         </div>
 
@@ -83,6 +93,14 @@
                     <a href="{{ route('cash-advance-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('cash-advance-approvals*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">💳</span>
                         <span>Persetujuan Kasbon</span>
+                    </a>
+                    <a href="{{ route('assets.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('assets.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💻</span>
+                        <span>Inventaris Aset</span>
+                    </a>
+                    <a href="{{ route('reimbursement-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('reimbursement-approvals.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">🧾</span>
+                        <span>Verifikasi Reimbursement</span>
                     </a>
                     <span class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-500 cursor-not-allowed">
                         <span class="text-base">🔐</span>
@@ -134,7 +152,14 @@
                         <span class="text-base">💳</span>
                         <span>Persetujuan Kasbon</span>
                     </a>
-
+                    <a href="{{ route('assets.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('assets.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">💻</span>
+                        <span>Inventaris Aset</span>
+                    </a>
+                    <a href="{{ route('reimbursement-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('reimbursement-approvals.*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">🧾</span>
+                        <span>Verifikasi Reimbursement</span>
+                    </a>
                 </div>
             </div>
         @endrole
@@ -155,6 +180,10 @@
                     <a href="{{ route('attendances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('attendances.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">📊</span>
                         <span>Monitoring Kehadiran</span>
+                    </a>
+                    <a href="{{ route('reimbursement-approvals.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('reimbursement-approvals.*') ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">🧾</span>
+                        <span>Persetujuan Klaim Tim</span>
                     </a>
                 </div>
             </div>
@@ -184,6 +213,10 @@
                     <a href="{{ route('ess.cash-advances.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.cash-advances*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
                         <span class="text-base">💳</span>
                         <span>Pinjaman / Kasbon</span>
+                    </a>
+                    <a href="{{ route('ess.reimbursements.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm {{ request()->routeIs('ess.reimbursements*') ? 'bg-sky-600 text-white shadow-md shadow-sky-600/20' : 'text-slate-400 hover:bg-slate-800/60 hover:text-white' }} transition">
+                        <span class="text-base">🧾</span>
+                        <span>Klaim Reimbursement</span>
                     </a>
                 </div>
             </div>

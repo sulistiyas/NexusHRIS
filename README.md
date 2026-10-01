@@ -50,7 +50,7 @@ Pengembangan NexusHRIS terbagi menjadi 5 siklus berjenjang (*Sprints*). Modul Sp
 | **Sprint 2** | **Struktur Organisasi & Karyawan** | ✅ **Selesai** | Cabang Geofence, Departemen, Onboarding Karyawan, Berkas Dokumen, Portal ESS. |
 | **Sprint 3** | **Presensi GPS, Shift & Cuti/Lembur** | ✅ **Selesai** | Geofencing Haversine, Foto Selfie, Evaluasi Keterlambatan, Approval Workflow, Mobile API. |
 | **Sprint 4** | **Payroll Engine, BPJS, PPh 21 TER & Slip PDF** | ✅ **Selesai** | Struktur Gaji, Kalkulasi Massal Batch, BPJS TK/Kes, Pajak PPh 21 TER, Slip Gaji PDF + QR. |
-| **Sprint 5** | **Reimbursement, Aset & BI Analytics** | ⏳ **Coming Soon** | Klaim Reimbursement, Inventaris Aset Kantor, Dashboard Visual Analitik, Ekspor Excel. |
+| **Sprint 5** | **Reimbursement, Aset & BI Analytics** | ✅ **Selesai** | Klaim Biaya Operasional, Inventaris Aset & Serah Terima, Visual BI Analytics, Ekspor Excel XLSX. |
 
 ---
 
@@ -126,24 +126,42 @@ Pengembangan NexusHRIS terbagi menjadi 5 siklus berjenjang (*Sprints*). Modul Sp
 
 ---
 
-## ⏳ Fitur Mendatang (Coming Soon Features)
-
-Fitur-fitur berikut sedang dalam tahap perencanaan teknis lanjutan dan akan segera dirilis pada pembaruan mendatang:
-
-### 5. Reimbursement, Aset Kantor & Dashboard Analitik (Coming Soon)
-- [ ] **Modul Klaim Biaya Operasional (Reimbursement):**
-  - Pengajuan klaim biaya perjalanan dinas, medis, atau representasi bisnis disertai unggahan foto struk kuitansi.
-  - Verifikasi persetujuan atasan hingga pencairan (*Disbursement*) oleh tim keuangan.
-- [ ] **Inventaris Aset Kantor & Serah Terima:**
-  - Pencatatan aset perusahaan (Laptop, Monitor, Kendaraan Operasional) beserta kode seri dan kondisi fisik.
-  - Log riwayat peminjaman ke karyawan beserta formulir berita acara pengembalian.
-- [ ] **Dashboard Analitik Eksekutif (Business Intelligence):**
-  - Visualisasi grafik interaktif rasio kehadiran pegawai, tren biaya penggajian bulanan, dan komposisi jumlah karyawan (*Headcount Analytics*).
-- [ ] **Ekspor Rekapitulasi Data ke Excel (.xlsx):**
-  - Unduh laporan presensi bulanan dan rekapitulasi penggajian ke format spreadsheet Excel dengan formula siap saji.
-- [ ] **Optimasi Performa & Rilis Produksi:** Caching terdistribusi (Redis), eliminasi bottleneck query, audit keamanan, dan kesiapan deployment cloud.
+### 5. Klaim Reimbursement, Inventaris Aset & Visual Analytics BI
+- **Klaim Biaya Operasional (Reimbursements):**
+  - **Portal ESS & Mobile API:** Pengajuan klaim biaya medis, perjalanan dinas, representasi, dan operasional dengan unggah bukti foto kuitansi/struk digital (JPG, PNG, PDF maks 5MB).
+  - **Penyimpanan Terproteksi:** Berkas kuitansi disimpan pada disk privat (`storage/app/private/reimbursements/`) dengan verifikasi otorisasi sebelum pengunduhan.
+  - **Alur Persetujuan Bertingkat & Pencairan:**
+    - Verifikasi dan persetujuan oleh Atasan Langsung (Manager) atau HR Administrator.
+    - Pencairan dana (*Disbursement*) oleh Bagian Keuangan (*Finance*) lengkap dengan pencatatan tanggal transfer dan referensi bank.
+  - **Nomor Klaim Unik Otomatis:** Format standar `REIMB-{YYYYMM}-{INCREMENT}` (contoh: `REIMB-202610-0001`).
+- **Manajemen Inventaris Aset Perusahaan (`assets` & `asset_assignments`):**
+  - **Katalog Master Aset:** Pencatatan aset inventaris (Laptop, PC, Monitor, Smartphone, Kendaraan) lengkap dengan *Asset Tag* unik, nomor seri (*Serial Number*), tanggal pembelian, nilai perolehan, dan kondisi fisik awal (`EXCELLENT`, `GOOD`, `FAIR`, `DAMAGED`).
+  - **Serah Terima ke Karyawan (Peminjaman):** Penugasan aset ke karyawan aktif dengan pencatatan tanggal serah terima, catatan kelengkapan aksesoris, dan pembaruan otomatis status aset menjadi `ASSIGNED`.
+  - **Berita Acara Pengembalian:** Pencatatan tanggal pengembalian fisik, audit kondisi akhir perangkat, serta transisi otomatis status aset kembali menjadi `AVAILABLE` (atau `UNDER_MAINTENANCE` jika mengalami kerusakan).
+  - **Riwayat Pelacakan Kustodi Lengkap:** Audit trail historis peminjaman dan pergerakan aset untuk pencegahan kehilangan aset perusahaan (*Loss Prevention*).
+- **Executive Visual Analytics Dashboard (Business Intelligence):**
+  - **Metrik Real-time Caching:** Didukung oleh `DashboardMetricService` dengan mekanisme caching 15 menit dan tombol penyegaran instan (*Manual Cache-Bust*).
+  - **Visualisasi Interaktif (Chart.js via Vite):**
+    - *Komposisi Tenaga Kerja (Headcount):* Donut chart distribusi karyawan berdasarkan departemen & status kontrak.
+    - *Rasio Kehadiran Hari Ini:* Donut chart kehadiran tepat waktu, terlambat, izin/cuti, sakit, dan tanpa keterangan.
+    - *Tren Pengeluaran Payroll 6 Bulan:* Bar chart fluktuasi total gaji bruto, potongan iuran/pajak, dan gaji bersih (*Take-Home Pay*).
+    - *Indikator Status Reimbursement & Aset:* Visual counter total klaim menunggu persetujuan, dicairkan bulan ini, dan rasio aset yang sedang dipinjamkan.
+- **Ekspor Laporan Rekapitulasi ke Excel (.xlsx):**
+  - **Rekapitulasi Presensi Bulanan:** Unduh rekapitulasi kehadiran seluruh pegawai dalam satu bulan kalender dengan formula penghitungan hadir, terlambat, izin, dan persentase kehadiran via `Maatwebsite/Laravel-Excel`.
+  - **Ringkasan Batch Penggajian:** Unduh rincian slip gaji dalam batch terpilih dengan format tabular rapi dan pemformatan mata uang siap cetak/audit.
+- **Sistem Hardening & Optimasi Performa:**
+  - **Eager Loading Optimization:** Bebas masalah N+1 queries dengan eager loading relasi terpadu.
+  - **Indeks Database Performa Tinggi:** Indeksasi kolom pencarian dan filtering pada tabel `attendances`, `reimbursements`, `assets`, dan `employees`.
+  - **API Rate Limiting:** Proteksi endpoint mobile dari abuse/DDoS dengan batasan `throttle:api` (60 request per menit per pengguna/IP).
 
 ---
+
+## 🔮 Rencana Pengembangan Lanjutan (Future Roadmap)
+
+Dengan selesainya seluruh 5 Sprint Utama (Fondasi, Kepegawaian, Presensi GPS, Payroll TER, dan Reimbursement/Aset/BI), NexusHRIS kini siap digunakan untuk operasional skala produksi (*Production-Ready*). Fitur masa depan yang dapat ditambahkan meliputi:
+- [ ] **AI Facial Biometrics:** Pengenalan wajah berbasis AI untuk verifikasi presensi liveness mandiri.
+- [ ] **WhatsApp & Push Notifications Gateway:** Notifikasi instan persetujuan cuti, pengumuman slip gaji, dan serah terima aset.
+- [ ] **Multi-Currency & International Tax Schemes:** Dukungan ekspansi lintas negara dengan multi mata uang.
 
 ## 🏛 Arsitektur Sistem
 
